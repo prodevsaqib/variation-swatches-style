@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: Variation Swatches for WooCommerce
+ * Plugin Name: Onlinehub Variation Swatches
  * Description: Adds color swatches (with an admin color picker) and button-style variation selectors to WooCommerce variable products, automatically switching to a clean dropdown for attributes with many options.
- * Version: 0.4.0
+ * Version: 0.4.1
  * Author: Muhammad Saqib
  * Author URI: https://github.com/prodevsaqib
  * Text Domain: onlinehub-variation-swatches
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'OHVS_VERSION', '0.4.0' );
+define( 'OHVS_VERSION', '0.4.1' );
 define( 'OHVS_PATH', plugin_dir_path( __FILE__ ) );
 define( 'OHVS_URL', plugin_dir_url( __FILE__ ) );
 
@@ -22,7 +22,7 @@ define( 'OHVS_URL', plugin_dir_url( __FILE__ ) );
  * Bail out gracefully if WooCommerce isn't active.
  */
 function ohvs_woocommerce_missing_notice() {
-	echo '<div class="notice notice-error"><p>' . esc_html__( 'Variation Swatches for WooCommerce requires WooCommerce to be installed and active.', 'onlinehub-variation-swatches' ) . '</p></div>';
+	echo '<div class="notice notice-error"><p>' . esc_html__( 'Onlinehub Variation Swatches requires WooCommerce to be installed and active.', 'onlinehub-variation-swatches' ) . '</p></div>';
 }
 
 function ohvs_init() {

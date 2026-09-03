@@ -386,6 +386,11 @@
 	text-align: center;
 }
 
+.ohvs-reset-form .button.disabled {
+	pointer-events: none;
+	opacity: .6;
+}
+
 /* Save bar */
 .ohvs-save-bar {
 	position: sticky;

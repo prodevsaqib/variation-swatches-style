@@ -1,4 +1,4 @@
-# Variation Swatches for WooCommerce
+# Onlinehub Variation Swatches
 
 Renders WooCommerce variable product attributes as color swatches or button
 swatches instead of plain `<select>` dropdowns, and automatically falls back
@@ -37,7 +37,7 @@ color pickers stay compact and long lists (flavors, sizes, etc.) stay usable.
 ## Installation
 
 1. Download or clone this repository into `wp-content/plugins/`.
-2. Activate **Variation Swatches for WooCommerce** from the Plugins screen.
+2. Activate **Onlinehub Variation Swatches** from the Plugins screen.
 
 ## Usage
 
@@ -78,6 +78,9 @@ site-wide, with a live preview that updates as you change values:
   (diagonal line, faded, or hidden entirely).
 - **Reset to Defaults** — one click to clear all of the above back to their
   defaults.
+- Both **Save Changes** and **Reset to Defaults** run over AJAX (no page
+  reload) and confirm with a toast notification; the page still degrades to
+  a normal full-page submit if JavaScript is unavailable.
 
 ## License
 

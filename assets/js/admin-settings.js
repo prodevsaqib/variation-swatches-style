@@ -91,5 +91,66 @@ jQuery(function ($) {
 					$submit.prop('disabled', false).val(originalText);
 				});
 		});
+
+		// --- AJAX reset ------------------------------------------------------
+
+		function setToggle($form, field, value) {
+			$form.find('[name$="[' + field + ']"]').prop('checked', 'yes' === value);
+		}
+
+		function setRadio($form, field, value) {
+			$form.find('input[name$="[' + field + ']"][value="' + value + '"]').prop('checked', true);
+		}
+
+		function populateForm($form, settings) {
+			$form.find('#ohvs_dropdown_threshold').val(settings.dropdown_threshold);
+			$form.find('#ohvs_excluded_attributes').val(settings.excluded_attributes);
+
+			setToggle($form, 'apply_threshold_to_color', settings.apply_threshold_to_color);
+			setToggle($form, 'show_selected_label', settings.show_selected_label);
+			setToggle($form, 'show_tooltip', settings.show_tooltip);
+			setToggle($form, 'enable_out_of_stock_indicator', settings.enable_out_of_stock_indicator);
+
+			setRadio($form, 'color_shape', settings.color_shape);
+			setRadio($form, 'button_shape', settings.button_shape);
+			setRadio($form, 'swatch_size', settings.swatch_size);
+			setRadio($form, 'out_of_stock_style', settings.out_of_stock_style);
+
+			$('#ohvs_accent_color').wpColorPicker('color', settings.accent_color);
+
+			applyPreview();
+		}
+
+		$(document).on('click', '#ohvs-reset-settings', function (e) {
+			e.preventDefault();
+
+			if (!window.confirm(settingsData.resetConfirmText)) {
+				return;
+			}
+
+			var $btn = $(this);
+			var originalText = $btn.text();
+
+			$btn.addClass('disabled').text(settingsData.resettingText);
+
+			$.post(settingsData.ajaxUrl, {
+				action: 'ohvs_reset_settings',
+				nonce: settingsData.nonce,
+			})
+				.done(function (response) {
+					if (response && response.success) {
+						populateForm($('.ohvs-settings-form'), response.data.settings);
+						showToast('success', (response.data && response.data.message) || settingsData.resetText);
+					} else {
+						showToast('error', (response && response.data && response.data.message) || settingsData.resetErrorText);
+					}
+				})
+				.fail(function () {
+					showToast('error', settingsData.resetErrorText);
+				})
+				.always(function () {
+					$btn.removeClass('disabled').text(originalText);
+				});
+		});
 	}
 });

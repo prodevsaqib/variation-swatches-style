@@ -33,6 +33,7 @@ class OHVS_Settings_Page {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 		add_action( 'admin_post_ohvs_reset_settings', array( $this, 'handle_reset' ) );
 		add_action( 'wp_ajax_ohvs_save_settings', array( $this, 'ajax_save' ) );
+		add_action( 'wp_ajax_ohvs_reset_settings', array( $this, 'ajax_reset' ) );
 	}
 
 	/**
@@ -138,7 +139,29 @@ class OHVS_Settings_Page {
 	}
 
 	/**
-	 * Reset all settings back to their defaults.
+	 * AJAX handler: reset all settings back to their defaults, and return the
+	 * fresh defaults so the page can repopulate its fields without a reload.
+	 */
+	public function ajax_reset() {
+		check_ajax_referer( 'ohvs_ajax_save', 'nonce' );
+
+		if ( ! current_user_can( 'manage_woocommerce' ) ) {
+			wp_send_json_error( array( 'message' => __( 'You are not allowed to do this.', 'onlinehub-variation-swatches' ) ), 403 );
+		}
+
+		delete_option( OHVS_Settings::OPTION_KEY );
+		OHVS_Settings::flush_cache();
+
+		wp_send_json_success(
+			array(
+				'message'  => __( 'Settings reset to defaults.', 'onlinehub-variation-swatches' ),
+				'settings' => OHVS_Settings::defaults(),
+			)
+		);
+	}
+
+	/**
+	 * Reset all settings back to their defaults (no-JS fallback for the AJAX path above).
 	 */
 	public function handle_reset() {
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
@@ -181,12 +204,16 @@ class OHVS_Settings_Page {
 			'ohvs-admin-settings',
 			'ohvsAdmin',
 			array(
-				'ajaxUrl'      => admin_url( 'admin-ajax.php' ),
-				'nonce'        => wp_create_nonce( 'ohvs_ajax_save' ),
-				'optionKey'    => OHVS_Settings::OPTION_KEY,
-				'savingText'   => __( 'Saving…', 'onlinehub-variation-swatches' ),
-				'savedText'    => __( 'Settings saved', 'onlinehub-variation-swatches' ),
-				'errorText'    => __( 'Could not save settings. Please try again.', 'onlinehub-variation-swatches' ),
+				'ajaxUrl'          => admin_url( 'admin-ajax.php' ),
+				'nonce'            => wp_create_nonce( 'ohvs_ajax_save' ),
+				'optionKey'        => OHVS_Settings::OPTION_KEY,
+				'savingText'       => __( 'Saving…', 'onlinehub-variation-swatches' ),
+				'savedText'        => __( 'Settings saved', 'onlinehub-variation-swatches' ),
+				'errorText'        => __( 'Could not save settings. Please try again.', 'onlinehub-variation-swatches' ),
+				'resettingText'    => __( 'Resetting…', 'onlinehub-variation-swatches' ),
+				'resetText'        => __( 'Reset to Defaults', 'onlinehub-variation-swatches' ),
+				'resetConfirmText' => __( 'Reset all Swatches Style settings to their defaults?', 'onlinehub-variation-swatches' ),
+				'resetErrorText'   => __( 'Could not reset settings. Please try again.', 'onlinehub-variation-swatches' ),
 			)
 		);
 	}
@@ -471,7 +498,7 @@ class OHVS_Settings_Page {
 							);
 							?>
 							<div class="ohvs-reset-form">
-								<a href="<?php echo esc_url( $reset_url ); ?>" class="button" onclick="return confirm('<?php echo esc_js( __( 'Reset all Swatches Style settings to their defaults?', 'onlinehub-variation-swatches' ) ); ?>');"><?php esc_html_e( 'Reset to Defaults', 'onlinehub-variation-swatches' ); ?></a>
+								<a href="<?php echo esc_url( $reset_url ); ?>" id="ohvs-reset-settings" class="button"><?php esc_html_e( 'Reset to Defaults', 'onlinehub-variation-swatches' ); ?></a>
 							</div>
 						</div>
 					</div>
