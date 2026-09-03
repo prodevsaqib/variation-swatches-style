@@ -1,4 +1,4 @@
-# Onlinehub Variation Swatches
+# Variation Swatches Style
 
 Renders WooCommerce variable product attributes as color swatches or button
 swatches instead of plain `<select>` dropdowns, and automatically falls back
