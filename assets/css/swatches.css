@@ -1,0 +1,232 @@
+/* Keep the real <select> functional for WooCommerce's variation JS, but visually hidden. */
+.ohvs-hidden-select {
+	position: absolute !important;
+	width: 1px !important;
+	height: 1px !important;
+	padding: 0 !important;
+	margin: -1px !important;
+	overflow: hidden !important;
+	clip: rect(0, 0, 0, 0) !important;
+	white-space: nowrap !important;
+	border: 0 !important;
+}
+
+.ohvs-label-sep,
+.ohvs-selected-value {
+	font-weight: 400;
+	color: #6b7280;
+}
+
+.ohvs-swatches {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 10px;
+	margin: 6px 0 4px;
+}
+
+.ohvs-swatch {
+	cursor: pointer;
+	box-sizing: border-box;
+	transition: border-color .15s ease, box-shadow .15s ease, background-color .15s ease, color .15s ease;
+}
+
+/* Color circle swatches */
+.ohvs-swatch--color {
+	position: relative;
+	width: 34px;
+	height: 34px;
+	border-radius: 50%;
+	border: 2px solid #fff;
+	box-shadow: 0 0 0 1px #d8d8d8;
+	background-color: #eee;
+	background-size: cover;
+	background-position: center;
+	overflow: hidden;
+}
+
+.ohvs-shape-square .ohvs-swatch--color {
+	border-radius: 6px;
+}
+
+.ohvs-size-small .ohvs-swatch--color {
+	width: 24px;
+	height: 24px;
+}
+
+.ohvs-size-large .ohvs-swatch--color {
+	width: 42px;
+	height: 42px;
+}
+
+.ohvs-swatch--color:hover {
+	box-shadow: 0 0 0 2px #999;
+}
+
+.ohvs-swatch--color.selected {
+	box-shadow: 0 0 0 2px var(--ohvs-accent, #111);
+}
+
+.ohvs-swatch--color.disabled {
+	cursor: not-allowed;
+}
+
+.ohvs-swatch--color.disabled::after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: -15%;
+	right: -15%;
+	height: 1px;
+	background: rgba(255, 255, 255, .85);
+	transform: translateY(-50%) rotate(-45deg);
+}
+
+/* Out-of-stock style: driven by the "Out of stock style" setting, via a class on the container */
+.ohvs-swatch--color.oos {
+	cursor: not-allowed;
+}
+
+.ohvs-oos-style-diagonal .ohvs-swatch--color.oos::after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: -15%;
+	right: -15%;
+	height: 1px;
+	background: rgba(255, 255, 255, .85);
+	transform: translateY(-50%) rotate(-45deg);
+}
+
+.ohvs-oos-style-faded .ohvs-swatch--color.oos {
+	opacity: .4;
+}
+
+.ohvs-oos-style-hide .ohvs-swatch--color.oos {
+	display: none;
+}
+
+/* Button-style text swatches (used when an attribute has 3 or fewer options) */
+.ohvs-swatch--button {
+	position: relative;
+	min-width: 44px;
+	padding: 8px 16px;
+	text-align: center;
+	border: 1px solid #d8d8d8;
+	border-radius: 3px;
+	font-size: 13px;
+	line-height: 1.4;
+	color: #333;
+	background: #fff;
+	overflow: hidden;
+}
+
+.ohvs-shape-square .ohvs-swatch--button {
+	border-radius: 0;
+}
+
+.ohvs-size-small .ohvs-swatch--button {
+	min-width: 34px;
+	padding: 5px 11px;
+	font-size: 12px;
+}
+
+.ohvs-size-large .ohvs-swatch--button {
+	min-width: 52px;
+	padding: 11px 20px;
+	font-size: 14px;
+}
+
+.ohvs-swatch--button:hover {
+	border-color: #999;
+}
+
+.ohvs-swatch--button.selected {
+	border-color: var(--ohvs-accent, #111);
+	background: var(--ohvs-accent, #111);
+	color: #fff;
+}
+
+.ohvs-swatch--button.disabled {
+	color: #aaa;
+	cursor: not-allowed;
+}
+
+.ohvs-swatch--button.disabled::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cline x1='0' y1='0' x2='100' y2='100' stroke='%23999999' stroke-width='2.5'/%3E%3C/svg%3E");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	pointer-events: none;
+}
+
+/* Out-of-stock style: driven by the "Out of stock style" setting, via a class on the container */
+.ohvs-swatch--button.oos {
+	color: #aaa;
+	cursor: not-allowed;
+}
+
+.ohvs-oos-style-diagonal .ohvs-swatch--button.oos::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cline x1='0' y1='0' x2='100' y2='100' stroke='%23999999' stroke-width='2.5'/%3E%3C/svg%3E");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	pointer-events: none;
+}
+
+.ohvs-oos-style-faded .ohvs-swatch--button.oos {
+	opacity: .5;
+}
+
+.ohvs-oos-style-hide .ohvs-swatch--button.oos {
+	display: none;
+}
+
+/* Styled native <select> for attributes with more than 3 options */
+.ohvs-select-wrap {
+	display: block;
+	position: relative;
+	max-width: 320px;
+	margin: 6px 0 4px;
+}
+
+.ohvs-styled-select {
+	-webkit-appearance: none !important;
+	-moz-appearance: none !important;
+	appearance: none !important;
+	width: 100%;
+	padding: 10px 36px 10px 14px;
+	border: 1px solid #d8d8d8;
+	border-radius: 2px;
+	background-color: #fff;
+	background-image: none !important;
+	font-size: 14px;
+	color: #333;
+	cursor: pointer;
+}
+
+.ohvs-styled-select::-ms-expand {
+	display: none;
+}
+
+.ohvs-select-wrap::after {
+	content: "";
+	position: absolute;
+	right: 14px;
+	top: 50%;
+	width: 8px;
+	height: 8px;
+	border-right: 2px solid #333;
+	border-bottom: 2px solid #333;
+	transform: translateY(-70%) rotate(45deg);
+	pointer-events: none;
+}
+
+.ohvs-styled-select:focus {
+	outline: none;
+	border-color: var(--ohvs-accent, #111);
+}

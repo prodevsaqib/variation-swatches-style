@@ -1,0 +1,21 @@
+.ohvs-color-picker-row td {
+	padding-top: 12px;
+	border-top: 1px solid #eee;
+}
+
+.ohvs-color-picker-grid {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px 20px;
+	margin-top: 8px;
+}
+
+.ohvs-color-picker-field {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.ohvs-color-picker-field-label {
+	min-width: 80px;
+}
